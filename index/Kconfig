@@ -1,0 +1,32 @@
+
+# Kconfig file for package sm9541
+menuconfig PKG_USING_SM95_SENSOR
+    bool "sm9541: sm9541 sensor driver package, support: barometric,temperature."
+    default n
+
+if PKG_USING_SM95_SENSOR
+    
+    config PKG_SM9541_PATH
+        string
+        default "/packages/peripherals/sensors/sm9541"
+
+    choice
+        prompt "Version"
+        default PKG_USING_SM9541_LATEST_VERSION
+        help
+            Select the package version
+
+        config PKG_USING_SM9541_V100
+            bool "v1.0.0"
+
+        config PKG_USING_SM9541_LATEST_VERSION
+            bool "latest"
+    endchoice
+          
+    config PKG_SM9541_VER
+       string
+       default "v1.0.0"    if PKG_USING_SM9541_V100
+       default "latest"    if PKG_USING_SM9541_LATEST_VERSION
+
+endif
+

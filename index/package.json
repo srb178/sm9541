@@ -1,0 +1,34 @@
+{
+  "name": "sm9541",
+  "description": "The Digital Dif Pressure Sensor SM9541 driver package",
+  "description_zn": "数字差压传感器 SM9541 驱动软件包",
+  "enable": "PKG_USING_SM95_SENSOR",
+  "keywords": [
+    "sm9541"
+  ],
+  "category": "peripherals/sensors",
+  "author": {
+    "name": "srb178",
+    "email": "1018709932@qq.com",
+    "github": "srb178"
+  },
+  "license": "Apache-2.0",
+  "repository": "https://github.com/srb178/sm9541",
+  "icon": "unknown",
+  "homepage": "unknown",
+  "doc": "unknown",
+  "site": [
+    {
+      "version": "v1.0.0",
+      "URL": "https://github.com/srb178/sm9541.git",
+      "filename": "sm9541-1.0.0.zip",
+      "VER_SHA": "21d053cdca715086d4eb2866bce3528876e2792e"
+    },
+    {
+      "version": "latest",
+      "URL": "https://github.com/srb178/sm9541.git",
+      "filename": "sm9541.zip",
+      "VER_SHA": "master"
+    }
+  ]
+}
