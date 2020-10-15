@@ -11,7 +11,7 @@ double temperature9541;          /* actual temperature */
 
 
 /*******************************************************************************
-Fuc£ºsm95 sensor read register
+Fucï¿½ï¿½sm95 sensor read register
 *******************************************************************************/ 
 static rt_err_t sm95_read_regs(rt_sensor_t psensor, rt_uint8_t *data, rt_uint8_t data_size)
 {
@@ -43,7 +43,7 @@ static rt_err_t sm95_read_regs(rt_sensor_t psensor, rt_uint8_t *data, rt_uint8_t
 }
 
 /*******************************************************************************
-Fuc£ºsm95 sensor read original data
+Fucï¿½ï¿½sm95 sensor read original data
 *******************************************************************************/  
 static rt_err_t sm95_read_adc(rt_sensor_t psensor)
 {
@@ -73,7 +73,7 @@ static rt_err_t sm95_read_adc(rt_sensor_t psensor)
 
 
 /*******************************************************************************
-Fuc£ºsm95 read for actual P/T data
+Fucï¿½ï¿½sm95 read for actual P/T data
 *******************************************************************************/ 
 static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt_size_t len )
 {
@@ -154,7 +154,7 @@ static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt
 
 
 /*******************************************************************************
-Fuc£ºsm95 sensor control
+Fucï¿½ï¿½sm95 sensor control
 *******************************************************************************/ 
 static rt_err_t sm95_control(struct rt_sensor_device *psensor, int cmd, void *args)
 {
@@ -234,7 +234,7 @@ rt_err_t  sm9541_device_init(const char* name, struct rt_sensor_config *cfg )
         return ret;
 }
 
-//#ifdef   PKG_USING_SM95_SENSOR
+#ifdef   PKG_USING_SM95_SENSOR
 static int rt_hw_sm9541_port(void)
 {
     struct rt_sensor_config cfg;
@@ -246,4 +246,4 @@ static int rt_hw_sm9541_port(void)
     return RT_EOK;
 }
 INIT_COMPONENT_EXPORT(rt_hw_sm9541_port);  
-//#endif   /*PKG_USING_SM95_SENSOR*/
+#endif   /*PKG_USING_SM95_SENSOR*/
