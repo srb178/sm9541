@@ -11,7 +11,7 @@ double temperature9541;          /* actual temperature */
 
 
 /*******************************************************************************
-Fuc��sm95 sensor read register
+Fuc: sm95 sensor read register
 *******************************************************************************/ 
 static rt_err_t sm95_read_regs(rt_sensor_t psensor, rt_uint8_t *data, rt_uint8_t data_size)
 {
@@ -43,7 +43,7 @@ static rt_err_t sm95_read_regs(rt_sensor_t psensor, rt_uint8_t *data, rt_uint8_t
 }
 
 /*******************************************************************************
-Fuc��sm95 sensor read original data
+Fuc: sm95 sensor read original data
 *******************************************************************************/  
 static rt_err_t sm95_read_adc(rt_sensor_t psensor)
 {
@@ -73,7 +73,7 @@ static rt_err_t sm95_read_adc(rt_sensor_t psensor)
 
 
 /*******************************************************************************
-Fuc��sm95 read for actual P/T data
+Fuc: sm95 read for actual P/T data
 *******************************************************************************/ 
 static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt_size_t len )
 {
@@ -154,7 +154,7 @@ static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt
 
 
 /*******************************************************************************
-Fuc��sm95 sensor control
+Fuc: sm95 sensor control
 *******************************************************************************/ 
 static rt_err_t sm95_control(struct rt_sensor_device *psensor, int cmd, void *args)
 {
