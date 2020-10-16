@@ -156,7 +156,7 @@ rt_device_read(sm95_dev, 0, &sm95_data, 1);
 
 
 
-![](C:\Users\ruibi\Desktop\sample.png)
+![](./imag/sample.png)
 
 
 
