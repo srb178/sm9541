@@ -4,10 +4,9 @@
 #define DBG_LVL   DBG_LOG
 #include <rtdbg.h>
 
-rt_int32_t pressure_adc95;       /* pressure adc */
-rt_int32_t temperature_adc95;    /* temperature adc */
-double pressure9541;             /* actual pressure */  
-double temperature9541;          /* actual temperature */
+
+static double pressure9541;             /* actual pressure */  
+static double temperature9541;          /* actual temperature */
 
 
 /*******************************************************************************
@@ -45,26 +44,28 @@ static rt_err_t sm95_read_regs(rt_sensor_t psensor, rt_uint8_t *data, rt_uint8_t
 /*******************************************************************************
 Fuc: sm95 sensor read original data
 *******************************************************************************/  
-static rt_err_t sm95_read_adc(rt_sensor_t psensor)
+static rt_err_t sm95_read_adc(rt_sensor_t psensor, double* p9541, double* t9541)
 {
-	rt_uint8_t  buf_read[4] = {0};
+	rt_uint8_t  buf95_read[4] = {0};
     rt_uint8_t  status;
     rt_err_t ans;
     float dat = 0.0f;
-  
-    ans = sm95_read_regs(psensor, buf_read, 4); 
-     
+    rt_int32_t pressure_adc95;       /* pressure adc */
+    rt_int32_t temperature_adc95;    /* temperature adc */
+    
+    
+    ans = sm95_read_regs(psensor, buf95_read, 4);     
     if(ans == RT_EOK)
     {
-        status = buf_read[0]>>6;
+        status = buf95_read[0]>>6;
         if(status == 0)
         {
-            pressure_adc95 = ((buf_read[0]&0x3f)<<8) | buf_read[1];
-            temperature_adc95 = (buf_read[2])<<3 | buf_read[3]>>5;
+            pressure_adc95 = ((buf95_read[0]&0x3f)<<8) | buf95_read[1];
+            temperature_adc95 = (buf95_read[2]<<3) | (buf95_read[3]>>5);
               
             dat = ( psensor->info.range_max  - psensor->info.range_min ) /10;
-            pressure9541 = (pressure_adc95 - SM9541_MINCOUNT)*dat / (SM9541_MAXCOUNT - SM9541_MINCOUNT) + psensor->info.range_min;
-            temperature9541 = (float)temperature_adc95*200/2047 - 50;
+            *p9541 = (pressure_adc95 - SM9541_MINCOUNT)*dat / (SM9541_MAXCOUNT - SM9541_MINCOUNT) + psensor->info.range_min/10;
+            *t9541 = (float)temperature_adc95*200/2047 - 50;
             return RT_EOK;
         }           
     }
@@ -89,11 +90,12 @@ static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt
             if(psensor->info.type == RT_SENSOR_CLASS_BARO)
             {
                 /* actual pressure */            
-                if(sm95_read_adc(psensor) == RT_EOK)
-                {
+                if(sm95_read_adc(psensor, &pressure9541, &temperature9541) == RT_EOK)
+                { 
+                    sensor_data->type = RT_SENSOR_CLASS_BARO;
                     if(len == 1)
                     {
-                        sensor_data->type = RT_SENSOR_CLASS_BARO;
+                       
                         if(POINT_NUM == 4)
                         {
                             sensor_data->data.baro = pressure9541*10000;
@@ -107,11 +109,10 @@ static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt
                             sensor_data->data.baro = pressure9541*100;
                         }
                         sensor_data->timestamp = rt_sensor_get_ts();
-                        LOG_I("sm9541 fetch data finished! \r\n");
+                        //LOG_I("sm9541 fetch data finished! \r\n");
                     }
                     else if(len == 2)
                     {
-                        sensor_data->type = RT_SENSOR_CLASS_BARO;
                         if(POINT_NUM == 4)
                         {
                             sensor_data->data.baro = pressure9541*10000;
@@ -130,7 +131,7 @@ static rt_size_t sm95_fetch_data(struct rt_sensor_device *psensor, void *buf, rt
                         sensor_data->type = RT_SENSOR_CLASS_TEMP;                
                         sensor_data->data.temp = (temperature9541*100); 
                         sensor_data->timestamp = rt_sensor_get_ts();
-                        LOG_I("sm9541 fetch data finished! \r\n");
+                        //LOG_I("sm9541 fetch data finished! \r\n");
                     }                         
                     else
                     {
